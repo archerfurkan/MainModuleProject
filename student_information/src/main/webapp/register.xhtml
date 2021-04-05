@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Title</title>
+</h:head>
+<body>
+<h:form>
+    <table>
+        <tr>
+            <td>Email : </td>
+            <td><p:inputText value="#{register.email}" required="true" requiredMessage="you have to fill al section" id="email"/></td>
+            <td><p:message for="email"/></td>
+        </tr>
+        <tr>
+            <td>First Name : </td>
+            <td><p:inputText value="#{register.email}" required="true" requiredMessage="you have to fill al section" id="fname"/></td>
+            <td><p:message for="email"/></td>
+        </tr>
+        <tr>
+            <td>Last Name  : </td>
+            <td><p:inputText value="#{register.email}" required="true" requiredMessage="you have to fill al section" id="lname"/></td>
+            <td><p:message for="email"/></td>
+        </tr>
+        <tr>
+            <td>Password : </td>
+            <td><p:password value="#{register.password}" required="true" requiredMessage="you have to fill al section" id="passw"/></td>
+            <td><p:message for="passw"/></td>
+        </tr>
+
+            <h:form>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-4">
+                        <p:outputLabel for="@next" value="Basic"/>
+                        <p:selectOneMenu id="option" value="#{register.role}">
+                            <f:selectItem itemLabel="Student" itemValue="#{register.user.role}"/>
+                            <f:selectItem itemLabel="Instructor" itemValue="#{register.user.role}"/>
+                            <f:selectItem itemLabel="Admin" itemValue="#{register.user.role}"/>
+                            <f:facet name="footer">
+                                <h:outputText value="3 options" style="font-weight:bold;"/>
+                            </f:facet>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+            </h:form>
+        <tr>
+            <td></td>
+            <td><p:commandButton action="#{register.saveUserOnDB}" value="Login" ajax="false"/>
+                <p:button value="Cancel" href="index.xhtml"/></td>
+        </tr>
+    </table>
+    <p:messages showDetail="true" autoUpdate="true"/>
+</h:form>
+</body>
+</html>

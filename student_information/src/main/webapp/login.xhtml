@@ -21,17 +21,21 @@
         <table>
             <tr>
                 <td>Email : </td>
-                <td><p:inputText value="#{login.email}"/></td>
+                <td><p:inputText value="#{login.email}" required="true" requiredMessage="you have to fill al section" id="email"/></td>
+                <td><p:message for="email"/></td>
             </tr>
             <tr>
                 <td>Password : </td>
-                <td><p:password value="#{login.password}"/></td>
+                <td><p:password value="#{login.password}" required="true" requiredMessage="you have to fill al section" id="passw"/></td>
+                <td><p:message for="passw"/></td>
             </tr>
             <tr>
-                <td><p:commandButton action="#{login.checkUser}" value="Login" ajax="false"/></td>
-                <td><p:button value="Cancel" href="index.xhtml"/></td>
+                <td></td>
+                <td><p:commandButton action="#{login.checkUser}" value="Login" ajax="false"/>
+                    <p:button value="Cancel" href="index.xhtml"/></td>
             </tr>
         </table>
+        <p:messages showDetail="true" autoUpdate="true"/>
     </h:form>
 <br/>
 

@@ -4,8 +4,10 @@ import com.furkan.model.User;
 import com.furkan.service.LoginService;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 
 @ManagedBean(name = "login")
 public class LoginBean {
@@ -19,16 +21,17 @@ public class LoginBean {
     @ManagedProperty("#{sessionScopeBean}")
     SessionScopeBean sessionScopeBean;
 
-    public void checkUser(){
-       boolean result = loginService.checkUserOnDB(email,password);
+    public String checkUser() {
+        boolean result = loginService.checkUserOnDB(email, password);
 
-       if(result){
-           user = loginService.getUser(email,password);
-           sessionScopeBean.setUser(user);
-           return "main_operation";
-       }else{
-
-       }
+        if (result) {
+            user = loginService.getUser(email, password);
+            sessionScopeBean.setUser(user);
+            return "main_operation";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Email or Password is wrong!"));
+            return "login";
+        }
 
     }
 
@@ -62,5 +65,13 @@ public class LoginBean {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public SessionScopeBean getSessionScopeBean() {
+        return sessionScopeBean;
+    }
+
+    public void setSessionScopeBean(SessionScopeBean sessionScopeBean) {
+        this.sessionScopeBean = sessionScopeBean;
     }
 }

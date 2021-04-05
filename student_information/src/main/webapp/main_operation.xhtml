@@ -8,9 +8,30 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <title>Title</title>
+    <title>BilgeAdam Main Operation Page</title>
 </h:head>
 <body>
-$END$
+<div align="center">
+<h1>
+    <p:outputLabel value="Welcome : #{sessionScopeBean.user.firstname} #{sessionScopeBean.user.firstname}"/>
+</h1>
+<h2>
+    <p:outputLabel value="Role : #{sessionScopeBean.user.role}"/>
+</h2>
+    <br/>
+    <hr/>
+    <br/>
+    <h:form rendered="#{sessionScopeBean.user.role == 'ADMIN'}">
+        <p:button href="userlist.xhtml" value="Manage Users"/>
+        <p:button href="courselist.xhtml" value="Manage Course"/>
+    </h:form>
+    <h:form rendered="#{sessionScopeBean.user.role == 'STUDENT'}">
+        <h3>inside student page</h3>
+    </h:form>
+    <h:form rendered="#{sessionScopeBean.user.role == 'INSTRUCTOR'}">
+        <h3>inside instructor page</h3>
+    </h:form>
+</div>
+
 </body>
 </html>

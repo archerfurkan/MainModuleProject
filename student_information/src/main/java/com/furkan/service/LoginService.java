@@ -19,20 +19,18 @@ public class LoginService {
     public boolean checkUserOnDB(String email, String password) {
         TypedQuery<User> query = entityManager.createQuery("from User u where email=:email and password=:password",User.class);
         query.setParameter("email",email);
-        query.setParameter("password", SecurityUtils.hassPassword(password, HashAlgorithm.SHA256));
+        query.setParameter("password", SecurityUtils.hassPassword(password, HashAlgorithm.SHA256).toString());
         List<User> result = query.getResultList();
 
         boolean isExist = result.size()>0?true:false;
         return isExist;
-
-
     }
 
     public User getUser(String email, String password) {
 
         TypedQuery<User> query = entityManager.createQuery("from User u where email=:email and password=:password",User.class);
         query.setParameter("email",email);
-        query.setParameter("password", SecurityUtils.hassPassword(password, HashAlgorithm.SHA256));
+        query.setParameter("password", SecurityUtils.hassPassword(password, HashAlgorithm.SHA256).toString());
         List<User> result = query.getResultList();
 
         return result.get(0);
