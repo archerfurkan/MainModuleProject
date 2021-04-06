@@ -1,63 +1,33 @@
 package com.furkan.controller;
 
 import com.furkan.model.User;
-import com.furkan.service.LoginService;
 
-import javax.ejb.EJB;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.model.SelectItem;
+import java.util.ArrayList;
+import java.util.List;
 
 @ManagedBean(name = "register")
 public class RegisterBean {
-    private String email;
-    private String firstname;
-    private String lastname;
-    private String password;
-    private User.Role role;
     private User user;
+    private String password2;
+    private List<SelectItem> roleList;
 
-    @EJB
-    LoginService loginService;
+    @PostConstruct
+    public void init(){
+        user = new User();
+        roleList = new ArrayList<>();
+        User.Role[] roleArr = User.Role.values();
 
-
-
-    public String getEmail() {
-        return email;
+        for (User.Role role : roleArr) {
+            roleList.add(new SelectItem(role));
+        }
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String registerUser(){
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public User.Role getRole() {
-        return role;
-    }
-
-    public void setRole(User.Role role) {
-        this.role = role;
+        return "register";
     }
 
     public User getUser() {
@@ -68,12 +38,20 @@ public class RegisterBean {
         this.user = user;
     }
 
-
-    public LoginService getLoginService() {
-        return loginService;
+    public String getPassword2() {
+        return password2;
     }
 
-    public void setLoginService(LoginService loginService) {
-        this.loginService = loginService;
+    public void setPassword2(String password2) {
+        this.password2 = password2;
+    }
+
+    public List<SelectItem> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<SelectItem> roleList) {
+        this.roleList = roleList;
     }
 }
+
