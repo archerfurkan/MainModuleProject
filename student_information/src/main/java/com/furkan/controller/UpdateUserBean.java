@@ -7,44 +7,40 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-@ManagedBean(name = "register")
-public class RegisterBean {
+@ManagedBean
+@SessionScoped
+public class UpdateUserBean {
     private User user;
-    private String password2;
     private List<SelectItem> roleList;
 
     @EJB
     private UserService userService;
 
+
     @PostConstruct
-    public void init(){
-        user = new User();
+    public void init() {
         roleList = new ArrayList<>();
         User.Role[] roleArr = User.Role.values();
-
         for (User.Role role : roleArr) {
             roleList.add(new SelectItem(role));
         }
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        int userId = Integer.parseInt(req.getParameter("userId"));
+        user = userService.findUser(userId);
+
     }
 
-
-
-    public String registerUser(){
-        boolean result = userService.isEmailExistOnDB(user.getEmail());
-        if(result){
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "email already exist", "u have to wrine another email"));
-        }else{
-            userService.registerUserToDatabase(user);
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "registering", "User is registered"));
-        }
-       return "register";
+    public String updateUser() {
+        userService.updateUser(this.user);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Update User", "user is Updated"));
+        return "updateuser?faces-redirect=true";
     }
 
     public User getUser() {
@@ -53,14 +49,6 @@ public class RegisterBean {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getPassword2() {
-        return password2;
-    }
-
-    public void setPassword2(String password2) {
-        this.password2 = password2;
     }
 
     public List<SelectItem> getRoleList() {
@@ -79,4 +67,3 @@ public class RegisterBean {
         this.userService = userService;
     }
 }
-
